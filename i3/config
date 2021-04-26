@@ -6,28 +6,24 @@
 #	|_|____/   \___\___/|_| |_|_| |_|\__, |
 #	                                 |___/ 
 
+
+
 # Set default mod key 
 set $mod Mod4
 
 # Set font
 font pango:Inter bold 10
 
-#	     _             _                               _       _       
-#	 ___| |_ __ _ _ __| |_ _   _ _ __    ___  ___ _ __(_)_ __ | |_ ___ 
-#	/ __| __/ _` | '__| __| | | | '_ \  / __|/ __| '__| | '_ \| __/ __|
-#	\__ \ || (_| | |  | |_| |_| | |_) | \__ \ (__| |  | | |_) | |_\__ \
-#	|___/\__\__,_|_|   \__|\__,_| .__/  |___/\___|_|  |_| .__/ \__|___/
-#	                            |_|                     |_|            
+#	     _             _                      
+#	 ___| |_ __ _ _ __| |_ _   _ _ __   
+#	/ __| __/ _` | '__| __| | | | '_ \ 
+#	\__ \ || (_| | |  | |_| |_| | |_) |
+#	|___/\__\__,_|_|   \__|\__,_| .__/ 
+#	                            |_|                
 #	
 
 # xss-lock 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy --nofork
-
-# network manager
-exec --no-startup-id nm-applet
-
-# Bluetooth 
-exec --no-startup-id blueman-tray
 
 # Wallpaper 
 exec_always --no-startup-id nitrogen --restore
@@ -38,20 +34,11 @@ exec_always --no-startup-id picom --config /home/srinath/.config/picom/picom.con
 # notifications
 exec_always --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
 
-# volume icon
-exec --no-startup-id pasystray
-
-# battery icon
-exec --no-startup-id cbatticon
-
-# clipboard
-exec_always --no-startup-id parcellite
-
 # polkit
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# auto tiling
-# zexec_always --no-startup-id /home/srinath/.scripts/i3-auto-layout
+# clipboard
+exec_always --no-startup-id greenclip daemon
 
 #	     _                _             _       
 #	 ___| |__   ___  _ __| |_ ___ _   _| |_ ___ 
@@ -109,29 +96,8 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-# exit i3 (logs you out of your X session)
-#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
-# start rofi run launcher
-bindsym Mod1+space exec rofi -modi drun -show drun -line-padding 4 \
-                -columns 2 -padding 50 -hide-scrollbar \
-                -show-icons -drun-icon-theme "Papirus-dark"
-
-# rofi window                
-bindsym Mod1+w exec rofi -show window -line-padding 4 \
-                -columns 2 -padding 50 -hide-scrollbar \
-                -show-icons -drun-icon-theme "Papirus-dark"
-
-# rofi run                
-bindsym Mod1+r exec rofi -show run -line-padding 4 \
-                -columns 2 -padding 50 -hide-scrollbar \
-                -show-icons -drun-icon-theme "Papirus-dark"    
-                
-# rofimoji                                             
-bindsym Mod1+e exec --no-startup-id rofimoji
                 
 # change focus
 bindsym $mod+h focus left
@@ -177,53 +143,75 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# focus the parent container
-#bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
-
 # resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
+mode "RESIZE" {
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
         bindsym semicolon resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "RESIZE"
 
 # lock screen
 bindsym $mod+x exec --no-startup-id i3lock-fancy
 
-# Night Light
-# exec --no-startup-id redshift
+# take full screenshot
+bindsym Print exec --no-startup-id flameshot gui
+
+# firefox shortcut
+bindsym $mod+b exec --no-startup-id firefox
+
+#	            __ _ 
+#	 _ __ ___  / _(_)
+#	| '__/ _ \| |_| |
+#	| | | (_) |  _| |
+#	|_|  \___/|_| |_|
+#                 
+
+# Use alt+'key' to toggle rofi modes
+                 
+# rofi bluetooth
+bindsym Mod1+b exec --no-startup-id rofi-bluetooth
+
+# rofi wifi
+bindsym Mod1+i exec --no-startup-id rofi-wifi-menu
+
+# rofi power menu
+bindsym Mod1+q exec --no-startup-id rofi -show power-menu -modi power-menu:rofi-power-menu -width 20 -lines 6
+
+# start rofi run launcher
+bindsym Mod1+space exec rofi -modi drun -show drun -line-padding 4 \
+                -columns 2 -padding 50 -hide-scrollbar \
+                -show-icons -drun-icon-theme "Papirus-dark"
+
+# rofi window                
+bindsym Mod1+w exec rofi -show window -line-padding 4 \
+                -columns 2 -padding 50 -hide-scrollbar \
+                -show-icons -drun-icon-theme "Papirus-dark"
+
+# rofi run                
+bindsym Mod1+r exec rofi -show run -line-padding 4 \
+                -columns 2 -padding 50 -hide-scrollbar \
+                -show-icons -drun-icon-theme "Papirus-dark"    
+                
+# rofimoji                                             
+bindsym Mod1+e exec --no-startup-id rofimoji
 
 # calculator
 bindsym Mod1+c exec --no-startup-id rofi -show calc -modi calc -no-show-match -no-sort
 
-# take full screenshot
-bindsym Print exec --no-startup-id flameshot gui
-
-# brave shortcut
-bindsym $mod+b exec --no-startup-id brave
+# clipboard
+bindsym Mod1+x exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 #   __        ___           _                   
 #   \ \      / (_)_ __   __| | _____      _____ 
@@ -281,6 +269,7 @@ for_window [class="Minetest"] move to workspace $ws7
 # Floating
 for_window [class="Blueman-manager"] floating enable
 for_window [class="Pavucontrol"] floating enable
+for_window [class="Plank"] floating enable
 
 #	 _ _____   _                
 #	(_)___ /  | |__   __ _ _ __ 
@@ -294,7 +283,7 @@ for_window [class="Pavucontrol"] floating enable
 bar {
     position top
     strip_workspace_numbers yes
-    tray_padding 1
+    tray_padding 5
     status_command i3status -c /home/srinath/.config/i3status/i3status.conf
     colors {
     background #282A36
@@ -324,7 +313,7 @@ gaps inner 10
 gaps outer 1
 
 # Smart gaps (gaps used if only more than one container on the workspace)
-# smart_gaps on
+#smart_gaps on
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
@@ -336,5 +325,3 @@ smart_borders on
 #     | | |  _  | |___  | |___| |\  | |_| |
 #     |_| |_| |_|_____| |_____|_| \_|____/ 
 #                                       
-# bindsym $mod+i exec "i3-nagbar -t warning -m 'System Settings:' -B 'Themes' 'lxappearance' -B 'Wallpaper' 'nitrogen' -B 'Audio' 'pavucontrol' -B 'Notifications' 'xfce4-notifyd-config'"
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Power Menu:' -B 'Shutdown' 'systemctl poweroff' -B 'Reboot' 'systemctl reboot' -B 'Suspend' 'systemctl suspend'

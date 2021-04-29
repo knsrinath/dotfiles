@@ -1,0 +1,399 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background           = #282a36
+background-alt       = #6272a4
+foreground           = #f8f8f2
+foreground-alt       = #1284a5
+alert                = #ff5555
+
+network              = #f8f8f2
+alsa                 = #f8f8f2
+filesystem           = #f8f8f2
+keyboard             = #f8f8f2
+battery              = #f8f8f2
+
+[bar/example]
+width = 98.7%
+height = 15
+offset-x = 0.67%
+offset-y = 1%
+radius = 0.0
+fixed-center = true
+bottom = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 0
+line-color = ${colors.background-alt}
+
+border-size = 6
+border-color = ${colors.background}
+
+padding-left = 2
+padding-right = 2
+
+module-margin-left = 2
+module-margin-right = 2
+
+font-0 = Inter Nerd Font:style=Medium:size=10;2
+
+modules-left    = menu workspaces xwindow
+modules-center  = date
+modules-right   = cpu memory battery backlight pulseaudio wlan eth
+
+tray-position = right
+tray-padding = 2
+
+wm-restack = bspwm
+;wm-restack = i3
+
+;override-redirect = true
+
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:35:...%
+format-prefix = 
+format-suffix = 
+format-foreground = ${colors.foreground}
+format-padding = 4
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+format-mounted = <label-mounted>
+format-mounted-prefix = "   HDD:"
+format-mounted-foreground = ${colors.filesystem}
+label-mounted =  " %used%"
+
+format-unmounted = <label-unmounted>
+format-unmounted-prefix = HDD:
+label-unmounted = %mountpoint%: not mounted
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "CPU:"
+format-prefix-foreground = ${colors.foreground}
+label = %percentage:2%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "   MEM:"
+format-prefix-foreground = ${root.foreground}
+label = %percentage_used%%
+
+[module/wlan]
+type = internal/network
+interface = wlp8s0
+interval = 1.0
+accumulate-stats = true
+unknown-as-up = true
+
+format-connected                      = <label-connected>
+format-connected-foreground           = ${colors.network}
+format-connected-prefix               = WIFI: 
+
+format-disconnected                   = <label-disconnected>
+format-disconnected-foreground        = ${colors.alert}
+format-disconnected-prefix            = WIFI:   
+
+label-connected = " %essid%"
+label-disconnected = "No signal"
+
+[module/eth]
+type = internal/network
+interface = enp2s0
+interval = 3.0
+
+format-connected = <label-connected>
+format-connected-foreground = ${colors.network}
+format-connected-prefix = "   ETH:"
+label-connected = " %ifname%"
+
+format-disconnected =
+format-disconnected-foreground = ${colors.alert}
+label-disconnected = Not connected
+
+[module/date]
+type = internal/date
+interval = 5
+
+;;time =  %H:%M 
+time-alt = %A, %d %B %Y
+time = %I:%M %p 
+;;time-alt = %d-%m-%Y
+
+format-prefix =    
+label = " %time%"
+
+[module/alsa]
+type = internal/alsa
+
+format-volume = <ramp-volume> <label-volume>
+format-volume-foreground = ${colors.alsa}
+label-volume = %percentage%%
+
+format-muted-prefix = ﱝ
+format-muted-foreground = ${colors.alert}
+label-muted = " Muted"
+
+ramp-volume-0 = 奄
+ramp-volume-1 = 奄
+ramp-volume-2 = 奔
+ramp-volume-3 = 奔
+ramp-volume-4 = 奔
+ramp-volume-5 = 墳
+ramp-volume-6 = 墳
+
+ramp-headphones-0 = 
+ramp-headphones-1 = 
+
+[module/battery]
+type = internal/battery
+
+full-at = 99
+battery = BAT0
+adapter = AC
+
+poll-interval = 2
+time-format = %H:%M
+
+format-charging = <animation-charging> <label-charging>
+format-charging-foreground = ${colors.battery}
+label-charging  = " %percentage%%"
+ramp-capacity-0 = "   BAT:"
+ramp-capacity-1 = "   BAT:"
+ramp-capacity-2 = "   BAT:"
+ramp-capacity-3 = "   BAT:"
+ramp-capacity-4 = "   BAT:"
+ramp-capacity-5 = "   BAT:"
+ramp-capacity-6 = "   BAT:"
+ramp-capacity-7 = "   BAT:"
+ramp-capacity-8 = "   BAT:"
+ramp-capacity-9 = "   BAT:"
+
+format-discharging   = <ramp-capacity> <label-discharging>
+format-discharging-foreground   = ${colors.battery}
+label-discharging    = " %percentage%%"
+animation-charging-0 = "   CHR:"
+animation-charging-1 = "   CHR:"
+animation-charging-2 = "   CHR:"
+animation-charging-3 = "   CHR:"
+animation-charging-4 = "   CHR:"
+animation-charging-5 = "   CHR:"
+animation-charging-6 = "   CHR:"
+animation-charging-framerate = 750
+
+format-full          = <label-full>
+format-full-foreground = ${colors.battery}
+format-full-prefix   = "   FULL:"
+label-full           = " %percentage%%"
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+; vim:ft=dosini 
+
+[module/menu]
+type = custom/text
+content = ""
+content-foreground = ${colors.foreground}
+click-left = rofi -modi drun -show drun -line-padding 4 -columns 2 -padding 50 -hide-scrollbar -show-icons
+click-right = rofi -show window -line-padding 4 -columns 2 -padding 50 -hide-scrollbar -show-icons
+content-padding = 2
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+#sink = alsa_output.pci-0000_03_00.6.analog-stereo
+#sink = bluez_sink.00_18_09_17_6C_55.a2dp_sink
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = false
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+
+; Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-volume = <ramp-volume> <label-volume>
+format-volume-background = ${color.shade3}
+format-volume-padding = 2
+
+; Available tags:
+;   <label-muted> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-muted = <label-muted>
+format-muted-prefix = VOL:
+format-muted-background = ${color.shade3}
+format-muted-padding = 2
+
+; Available tokens:
+;   %percentage% (default)
+label-volume = %percentage%%
+
+; Available tokens:
+;   %percentage% (default
+label-muted = " Muted"
+label-muted-foreground = ${color.foreground}
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = VOL:
+ramp-volume-1 = VOL:
+ramp-volume-2 = VOL:
+
+[module/workspaces]
+type = internal/xworkspaces
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; Create click handler used to focus desktop
+; Default: true
+enable-click = true
+
+; Create scroll handlers used to cycle desktops
+; Default: true
+enable-scroll = true
+
+; icon-[0-9]+ = <desktop-name>;<icon>
+; NOTE: The desktop name needs to match the name configured by the WM
+; You can get a list of the defined desktops using:
+; $ xprop -root _NET_DESKTOP_NAMES
+icon-0 = 1;
+icon-1 = 2;
+icon-2 = 3;
+icon-3 = 4;
+icon-4 = 5;
+icon-default = 
+
+
+; Available tags:
+;   <label-monitor>
+;   <label-state> - gets replaced with <label-(active|urgent|occupied|empty)>
+; Default: <label-state>
+format = <label-state>
+format-padding = 1
+format-background = ${color.shade2}
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-monitor = %name%
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-active = 
+label-active-foreground = ${color.foreground}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-occupied = 
+label-occupied-foreground = ${color.foreground}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-urgent = 
+label-urgent-foreground = ${color.background}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-empty = 
+
+label-active-padding = 1
+label-urgent-padding = 1
+label-occupied-padding = 1
+label-empty-padding = 1
+
+[module/backlight]
+type = internal/backlight
+
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = acpi_video0
+
+; Enable changing the backlight with the scroll wheel
+; NOTE: This may require additional configuration on some systems. Polybar will
+; write to `/sys/class/backlight/${self.card}/brightness` which requires polybar
+; to have write access to that file.
+; DO NOT RUN POLYBAR AS ROOT. 
+; The recommended way is to add the user to the
+; `video` group and give that group write-privileges for the `brightness` file.
+; See the ArchWiki for more information:
+; https://wiki.archlinux.org/index.php/Backlight#ACPI
+; Default: false
+enable-scroll = false
+
+; Available tags:
+;   <label> (default)
+;   <ramp>
+;   <bar>
+format = <label>
+format-foreground = ${colors.foreground}
+; Available tokens:
+;   %percentage% (default)
+label = %{T2}  BRG: %percentage%%%{T-}

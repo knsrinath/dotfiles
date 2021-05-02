@@ -25,7 +25,7 @@ super + shift + r
 	bspc wm -r
 
 # close and kill
-super + {_,shift + }c
+super + {_,shift + }w
 	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
@@ -114,7 +114,7 @@ super + {Left,Down,Up,Right}
 
 # audio play/pause
 XF86AudioPlay
-    playerctl play-pause
+    playerctl play-pause 
     
 XF86AudioPause    
     playerctl play-pause
@@ -140,7 +140,8 @@ XF86AudioMicMute
     
 # screenshot
 Print
-    scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png && notify-send 'Fullscreen Screenshot taken'
+    flameshot gui    
+# scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png && notify-send 'Fullscreen Screenshot taken'
  
 # clipboard
 super + v
@@ -148,20 +149,24 @@ super + v
 
 # emoji
 super + period
-    rofimoji
+    rofi -show emoji -modi emoji
     
 # quit
 super + q
     rofi -show menu -width 20 -lines 4  -modi "menu:rofi-power-menu --choices=shutdown/reboot/logout/lockscreen"
-
-# rofi wifi     
-super + i
-    rofi-wifi-menu  
-    
-# rofi bluetooth
-super + b
-    rofi-bluetooth
             
 # rofi calc
 super + c
     rofi -show calc -modi calc -no-show-match -no-sort
+
+# rofi-wifi-menu
+super + i
+    rofi-wifi-menu
+
+# rofi bluetooth
+super + b
+    rofi-bluetooth
+    
+# rofi mpd 
+super + a
+    rofi-mpd -a 
